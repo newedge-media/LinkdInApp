@@ -1,0 +1,39 @@
+---
+Name: mysite
+After:
+  - 'framework/*'
+  - 'cms/*'
+---
+# YAML configuration for SilverStripe
+# See http://doc.silverstripe.org/framework/en/topics/configuration
+# Caution: Indentation through two spaces, not tabs
+SSViewer:
+  theme: 'simple'
+
+LeftAndMain:
+  extensions:
+    - CustomLeftAndMainExtension
+
+Member:
+  extensions:
+    - Member_Extension
+
+GridFieldDetailForm_ItemRequest:
+  extensions:
+    - GridFieldBetterButtonsCustomItemRequest
+
+BetterButtonsActions:
+  edit:
+    BetterButton_Done: true
+
+SiteConfig:
+  extensions:
+    - SiteConfig_Extension
+
+ModelAdmin:
+  extensions:
+    - ModelAdmin_Extension
+
+Director:
+  rules:
+    'playbook//$Action/$ID/$Name': 'PlaybookTemplateController'

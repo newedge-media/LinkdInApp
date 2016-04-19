@@ -1,0 +1,8 @@
+.cms .ui-widget.gridfield-better-buttons-done {
+	float:left;
+}
+.cms .gridfield-better-buttons-undone {
+	display:none;
+	float:left;
+	margin-left:10px;
+}
