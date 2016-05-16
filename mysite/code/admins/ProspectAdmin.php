@@ -22,6 +22,8 @@ class ProspectAdmin extends ModelAdmin {
             (function($) {
                 $.entwine('ss', function($){
 
+                    $('#Form_ImportForm_EmptyBeforeImport_Holder').hide();
+
                     $('.ss-gridfield button.ss-button-message-link').entwine({
                         onclick: function(e){
                             window.open($(this).attr('data-message-link-target'));
@@ -37,18 +39,6 @@ class ProspectAdmin extends ModelAdmin {
                             return false;
                         }
                     });                    
-
-                    /*$('.ss-gridfield button.ss-button-message-link').click(function(e){
-                        window.open($(this).attr('data-message-link-target'));
-                        e.preventDefault();
-                        return false;
-                    });
-
-                    $('.ss-gridfield button.ss-button-profile-link').click(function(e){
-                        window.open($(this).attr('data-profile-link-target'));
-                        e.preventDefault();
-                        return false;
-                    });*/
                 });
             })(jQuery);
             
@@ -69,13 +59,15 @@ JS
                     TextField::create('Lastname', 'Last Name'), 
                     EmailField::create('Email'), 
                     TextField::create('Telephone'), 
-                    TextareaField::create('ProfileLink', 'Profile Link'),
-                    TextareaField::create('MessageLink', 'Message Link'),
+                    TextField::create('JobTitle', 'Job Title'), 
+                    TextField::create('CompanyName', 'Company Name'), 
+                    TextField::create('ProfileLink', 'Profile Link'),
+                    TextField::create('MessageLink', 'Message Link'),
                     DropdownField::create('Status', 'Status', singleton('Prospect')->dbObject('Status')->enumValues()), 
                     DropdownField::create(
                         'GroupID', 
                         'Campaign', ProspectCampaign::get()->filter(array(
-                            'MemberID' => Member::currentUserID()))->map('ID', 'Title'))
+                            'MemberID' => Member::currentUserID()))->map('ID', 'Title'))->setEmptyString('(no campaign)')
                 )),
                 new GridFieldCheckboxSelectComponent(), 
                 new GridFieldMessageLinkAction(),

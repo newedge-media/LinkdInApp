@@ -19,11 +19,9 @@ class ProspectActionList extends DataObject {
 
 	private static $summary_fields = array(
 		'Message.Title' => 'Message Title', 
-		//'ButtonMessageLink' => 'Message Link',
-		'Prospect.Title' => 'Prospect', 
+		'Prospect.NameSummary' => 'Prospect', 
 		'Prospect.Email' => 'Email', 
 		'Prospect.Telephone' => 'Telephone'
-		//'Message.ActionDate' => 'Action Date', 
 	);
 
 	public function getCMSFields() {
@@ -50,8 +48,19 @@ class ProspectActionList extends DataObject {
 		);
 
 		$fields->insertAfter(
-			LiteralField::create('ProfileLink', '<p><strong>Profile Link</strong><br><a href="' .$this->Prospect()->ProfileLink. '" target="blank">' . $this->Prospect()->ProfileLink . '</a></p>'), 
+			LiteralField::create('JobTitle', '<p><strong>Job Title</strong><br>' . $this->Prospect()->JobTitle . '</p>'),
 			'Telephone'
+		);
+
+		$fields->insertAfter(
+			LiteralField::create('CompanyName', '<p><strong>Company Name</strong><br>' . $this->Prospect()->CompanyName . '</p>'),
+			'JobTitle'
+		);
+
+
+		$fields->insertAfter(
+			LiteralField::create('ProfileLink', '<p><strong>Profile Link</strong><br><a href="' .$this->Prospect()->ProfileLink. '" target="blank">' . $this->Prospect()->ProfileLink . '</a></p>'), 
+			'CompanyName'
 		);
 
 		$fields->insertAfter(
@@ -82,13 +91,4 @@ class ProspectActionList extends DataObject {
 	public function canDelete($member = NULL) {
 		return true;
 	}
-
-	/*public function ButtonMessageLink() {
-		if ($this->Prospect()->MessageLink) {
-			return LiteralField::create('MessageLink', '<a href="' .$this->Prospect()->MessageLink. '" class="gfMessageLink ss-ui-button ui-button ui-widget ui-state-default ui-corner-all" target="_blank">Msg Link</a>');
-		}
-
-		return null;
-	}*/
-
 }

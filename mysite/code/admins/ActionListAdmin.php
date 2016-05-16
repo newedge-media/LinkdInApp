@@ -103,6 +103,7 @@ JS
 
     	$list = $list->filter(array(
     		'Message.Action_Date:LessThanOrEqual' => date('Y-m-d'), 
+            'Prospect.Status:not' => array('Hide', 'Sales Lead', 'Do Not Contact'),
     		'Complete' => false, 
             'MemberID' => Member::currentUserID()
     	));

@@ -7,9 +7,11 @@ class Prospect extends DataObject {
 		'Lastname' => 'Varchar', 
 		'Email' => 'Varchar', 
 		'Telephone' => 'Varchar', 
+		'JobTitle' => 'Text', 
+		'CompanyName' => 'Text', 
 		'ProfileLink' => 'Text', 
 		'MessageLink' => 'Text', 
-		'Status' => 'Enum("Prospect, Client, Do Not Contact, Not Interested, Hide", "Prospect")'
+		'Status' => 'Enum("Prospect, Client, Sales Lead, Do Not Contact, Not Interested, Hide", "Prospect")'
 	);
 
 	private static $has_one = array(
@@ -22,7 +24,7 @@ class Prospect extends DataObject {
 	);
 
 	private static $summary_fields=  array(
-		'Title' => 'Name', 
+		'NameSummary' => 'Name', 
 		'Email' => 'Email', 
 		'Telephone' => 'Telephone', 
 		'Status' => 'Status', 
@@ -49,6 +51,22 @@ class Prospect extends DataObject {
 
 		$fields->dataFieldByName('Lastname')
 			->setTitle('Last Name');
+		$fields->replaceField(
+			'JobTitle', 
+			TextField::create('JobTitle', 'Job Title')
+		);
+		$fields->replaceField(
+			'CompanyName', 
+			TextField::create('CompanyName', 'Company Name')
+		);
+		$fields->replaceField(
+			'ProfileLink', 
+			TextField::create('ProfileLink', 'Profile Link')
+		);
+		$fields->replaceField(
+			'MessageLink', 
+			TextField::create('MessageLink', 'Message Link')
+		);
 		$fields->dataFieldByName('GroupID')
 			->setTitle('Campaign')
 			->setSource(ProspectCampaign::get()->filter(array('MemberID' => Member::currentUserID()))->map('ID', 'Title'));
@@ -124,6 +142,24 @@ class Prospect extends DataObject {
 
 	public function canDelete($member = NULL) {
 		return true;
+	}
+
+	public function NameSummary() {
+		$title = "<strong>" . $this->FirstName . " " . $this->Lastname . "</strong>";
+
+		if ($this->JobTitle && $this->CompanyName) {
+			$title .= "<br>" . $this->JobTitle . " at " . $this->CompanyName;
+		}
+
+		if ($this->JobTitle && $this->CompanyName == "") {
+			$title .= "<br>" . $this->JobTitle;
+		}
+
+		if ($this->CompanyName  && $this->JobTitle == "") {
+			$title .= "<br>" . $this->CompanyName;
+		}
+
+		return DBField::create_field('HTMLText', $title);
 	}
 
 	public function NextMessageDate() {

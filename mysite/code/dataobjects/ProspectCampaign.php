@@ -47,7 +47,7 @@ class ProspectCampaign extends DataObject {
 				GridField::create(
 					'Prospects', 
 					'Prospects', 
-					$this->Prospects()->filter(array('Status:not' => 'Hide')), 
+					$this->Prospects()->filter(array('Status:not' => array('Hide', 'Do Not Contact', 'Sales Lead'))), 
 					GridFieldConfig_RelationEditor::create()
 						->addComponents(
 							new Milkyway\SS\GridFieldUtils\AddExistingPicker('buttons-before-left'),
